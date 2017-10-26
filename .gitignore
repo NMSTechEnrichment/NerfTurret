@@ -54,3 +54,4 @@ Temporary Items
 *.iws
 *.ids
 .idea/
+/out

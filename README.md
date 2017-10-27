@@ -11,4 +11,4 @@ This uses Pi4J to control GPIO on the Pi, see [http://pi4j.com/index.html](http:
 
 ## Colaborators
 Josh & Fred
-MatT
+Matt

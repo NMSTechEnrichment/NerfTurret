@@ -48,6 +48,8 @@ public class Servo
     {
         this.position = position;
         SoftPwm.softPwmWrite(pin, this.position);
+
+        // TODO This isn't working well with our servos. Figure out why.
     }
 
     public int getPin()

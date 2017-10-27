@@ -45,6 +45,7 @@ public class Turret
      */
     public void moveUp()
     {
+        // TODO Just too a guess at direction, need to figure out how the Servos actually move and how far.
         tiltServo.move(tiltServo.getPosition() + 5);
     }
 

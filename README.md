@@ -1,7 +1,31 @@
 # NerfTurret
 An automatic Nerf Gut Turret.
 
-This uses Pi4J to control GPIO on the Pi, see [http://pi4j.com/index.html](http://pi4j.com/index.html) for details, or the javadoc at [http://pi4j.com/apidocs/index.html](http://pi4j.com/apidocs/index.html) for info on how you program it.
+This uses Pi4J to control GPIO on the Pi, see [http://pi4j.com/index.html](http://pi4j.com/index.html) for details, or 
+the javadoc at [http://pi4j.com/apidocs/index.html](http://pi4j.com/apidocs/index.html) for info on how you program it.
+
+Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/](https://restlet.com/open-source/) for 
+details, or the javadoc at [https://restlet.com/open-source/documentation/user-guide/2.3](https://restlet.com/open-source/documentation/user-guide/2.3) for info on how to use it.
+
+## November 8, 2017
+
+- Added a simple web server using Restlet to serve REST resources that can eventually be used to control the turret 
+remotely via the web. Added ```restlet```, ```gson``` and ```json``` jars the ```lib``` directory.
+- We need a script to compile the java code on the Pi. Compiling Java is very cumbersome, if we had a full IDE on 
+the Pi we could do it using that, but since we are coding on IntelliJ on Windows it needs to be recompiled on the 
+Pi.  
+
+To compile, from the project root directory run:
+```
+javac -cp ./lib/*:./src/main/java/* src/main/java/com/nerf/turret/ControlResrouce.java src/main/java/com/nerf/turret/NerfTurretServer.java 
+``` 
+
+And to run it, from the project root directory run:
+```
+sudo java -cp ./lib/*:./src/main/java/* com.nerf.turret.NerfTurretServer 
+```
+
+Ideally we'll compile in to a ```target``` directory next to our ```src``` directory.
 
 ## October 27, 2017
 

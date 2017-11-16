@@ -1,0 +1,31 @@
+
+#loginLogo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -288px;
+}
+
+#status
+{
+    font-family: "Century Gothic";
+    font-size: 28;
+}
+
+#startScan {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0px;
+    font-family: "Century Gothic";
+    color: #ffffff;
+    font-size: 22px;
+    background: #878787;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+#startScan:hover {
+    background: #999c9e;
+    text-decoration: none;
+}

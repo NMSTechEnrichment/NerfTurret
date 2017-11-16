@@ -10,6 +10,9 @@ import com.pi4j.wiringpi.SoftPwm;
 public class Servo
 {
 
+    /** The name of the servo, cannot be changed. */
+    private final String name;
+
     /** The GPIO pin, cannot be reset. */
     private final int pin;
 
@@ -22,8 +25,9 @@ public class Servo
      * @param pin The GPIO pin.
      * @param position The initial position.
      */
-    public Servo(int pin, int position)
+    public Servo(String name, int pin, int position)
     {
+        this.name = name;
         this.pin = pin;
         this.position = position;
     }
@@ -64,6 +68,12 @@ public class Servo
 
     public void setPosition(int position)
     {
+        printLogMessage("Setting position to " + position);
         this.position = position;
+    }
+
+    private void printLogMessage(String message)
+    {
+        System.out.println(name + " servo: " + message);
     }
 }

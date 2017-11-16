@@ -11,6 +11,9 @@ import java.io.InputStreamReader;
 public class Turret
 {
 
+    /** String ot identify turrets in a restlet context map. */
+    public static final String IDENTIFIER = "Turret";
+
     /** The pan servo for moving left and right. */
     private final Servo panServo;
 
@@ -76,6 +79,17 @@ public class Turret
         panServo.move(panServo.getPosition() - 5);
     }
 
+    public void setPosition(Position position)
+    {
+        panServo.setPosition(position.pan);
+        tiltServo.setPosition(position.tilt);
+    }
+
+    public Position getPosition()
+    {
+        return new Position(panServo.getPosition(), tiltServo.getPosition());
+    }
+
     /**
      * Create a new Turret.
      *
@@ -83,8 +97,8 @@ public class Turret
      */
     public static Turret create()
     {
-        Servo panServo = new Servo(15, 0);
-        Servo tiltServo = new Servo(16, 0);
+        Servo panServo = new Servo("Pan",15, 0);
+        Servo tiltServo = new Servo("Tilt",16, 0);
 
         return new Turret(panServo, tiltServo);
     }
@@ -124,6 +138,19 @@ public class Turret
 
         System.out.println("Quitting.");
 
+    }
+
+    public static class Position
+    {
+        public int pan;
+
+        public int tilt;
+
+        public Position(int pan, int tilt)
+        {
+            this.pan = pan;
+            this.tilt = tilt;
+        }
     }
 
 }

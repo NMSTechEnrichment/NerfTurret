@@ -1,11 +1,13 @@
 package com.nerf.turret;
 
-import com.google.gson.JsonObject;
-import org.restlet.data.MediaType;
-import org.restlet.representation.Representation;
-import org.restlet.representation.StringRepresentation;
+import com.google.gson.Gson;
+import org.restlet.data.Status;
+import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
+
+import java.io.IOException;
 
 /**
  * Web resource for controlling the Nerf Turret.
@@ -14,7 +16,19 @@ import org.restlet.resource.ServerResource;
 public class ControlResource extends ServerResource
 {
 
-    // TODO Instantiate a Turret in here to be controlled.
+    /** Handles the conversion of objects to/from json. */
+    private final Gson gson;
+
+    /**
+     * Constructor, instantiates the turret.
+     *
+     */
+    public ControlResource()
+    {
+        System.out.println("Setting up resource!");
+        gson = new Gson();
+
+    }
 
     /**
      * Get the json representation of a state. Always returns Status:OK.
@@ -22,27 +36,34 @@ public class ControlResource extends ServerResource
      * @return StringRepresentation containing JSON status.
      */
     @Get("json")
-    public Representation getState()
+    public JsonRepresentation getPosition()
     {
-        JsonObject result = new JsonObject();
+        Turret turret = (Turret)getContext().getAttributes().get(Turret.IDENTIFIER);
+        return new JsonRepresentation(gson.toJson(getTurretFromContext().getPosition()));
+    }
 
-        result.addProperty("Status", "OK");
+    @Post("json")
+    public void setPosition(JsonRepresentation positionRepresentation)
+    {
+        System.out.println("Attempting to set position...");
+        try
+        {
+            Turret.Position position = gson.fromJson(positionRepresentation.getText(), Turret.Position.class);
 
-        return new StringRepresentation(result.toString(), MediaType.APPLICATION_ALL_JSON);
+            getTurretFromContext().setPosition(position);
+
+        }
+        catch (IOException e)
+        {
+            setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
+        }
+
 
     }
 
-    /**
-     * Get at the root returns "Hello World!"
-     *
-     * @return Hello World!
-     */
-    @Get
-    public String toString()
+    private Turret getTurretFromContext()
     {
-        return "Hello World!";
+        return (Turret)getContext().getAttributes().get(Turret.IDENTIFIER);
     }
-
-    // TODO Add PUT resources that accept a command to move the turret.
 
 }

@@ -31,7 +31,7 @@ public class ControlResource extends ServerResource
     }
 
     /**
-     * Get the json representation of a state. Always returns Status:OK.
+     * Get the json representation of the position.
      *
      * @return StringRepresentation containing JSON status.
      */
@@ -42,6 +42,11 @@ public class ControlResource extends ServerResource
         return new JsonRepresentation(gson.toJson(getTurretFromContext().getPosition()));
     }
 
+    /**
+     * Set the position.
+     *
+     * @param positionRepresentation {@link JsonRepresentation} of the position.
+     */
     @Post("json")
     public void setPosition(JsonRepresentation positionRepresentation)
     {
@@ -58,9 +63,15 @@ public class ControlResource extends ServerResource
             setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
         }
 
+        System.out.println("Position set...");
 
     }
 
+    /**
+     * Get the turret out of the server context.
+     *
+     * @return The active {@link Turret}.
+     */
     private Turret getTurretFromContext()
     {
         return (Turret)getContext().getAttributes().get(Turret.IDENTIFIER);

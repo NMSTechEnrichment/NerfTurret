@@ -22,6 +22,7 @@ public class Servo
     /**
      * Constructor.
      *
+     * @param name The servo name.
      * @param pin The GPIO pin.
      * @param position The initial position.
      */
@@ -72,6 +73,11 @@ public class Servo
         this.position = position;
     }
 
+    /**
+     * Print the given log message along with the name of the servo.
+     *
+     * @param message Message to print.
+     */
     private void printLogMessage(String message)
     {
         System.out.println(name + " servo: " + message);

@@ -12,7 +12,7 @@ public class Turret
 {
 
     /** String ot identify turrets in a restlet context map. */
-    public static final String IDENTIFIER = "Turret";
+    static final String IDENTIFIER = "Turret";
 
     /** The pan servo for moving left and right. */
     private final Servo panServo;
@@ -79,12 +79,22 @@ public class Turret
         panServo.move(panServo.getPosition() - 5);
     }
 
+    /**
+     * Set the position of the turret.
+     *
+     * @param position The turret position to set.
+     */
     public void setPosition(Position position)
     {
         panServo.setPosition(position.pan);
         tiltServo.setPosition(position.tilt);
     }
 
+    /**
+     * Get the position of the turret.
+     *
+     * @return The current position.
+     */
     public Position getPosition()
     {
         return new Position(panServo.getPosition(), tiltServo.getPosition());
@@ -103,6 +113,12 @@ public class Turret
         return new Turret(panServo, tiltServo);
     }
 
+    /**
+     * Contol the turret from the command line.
+     *
+     * @param args Arguments.
+     * @throws IOException If the command line input can't be read.
+     */
     public static void main(String[] args) throws IOException
     {
         // Create the turret.
@@ -140,12 +156,23 @@ public class Turret
 
     }
 
+    /**
+     * Represents the {@link Turret} position.
+     */
     public static class Position
     {
+        /** The pan position. */
         public int pan;
 
+        /** The tilt position. */
         public int tilt;
 
+        /**
+         * Constructor.
+         *
+         * @param pan The pan position.
+         * @param tilt The tilt position.
+         */
         public Position(int pan, int tilt)
         {
             this.pan = pan;

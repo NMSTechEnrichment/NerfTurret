@@ -16,8 +16,6 @@
     <script src="js/jquery-ui.min.js"></script>
     <script>
 
-        var baseURL = "http://localhost"
-
         $( function() {
             $("#pan").slider({
                 value: 50,
@@ -45,8 +43,6 @@
         function tilt(value)
         {
             console.log("tilt: " + value);
-            console.log("and pan: " + $("#pan").slider("value"))
-
             sendPosition();
         }
 
@@ -67,7 +63,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "http://localhost",
+                url: "http://localhost/control",
                 data: JSON.stringify(position)
             });
         }

@@ -7,7 +7,7 @@ the javadoc at [http://pi4j.com/apidocs/index.html](http://pi4j.com/apidocs/inde
 Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/](https://restlet.com/open-source/) for 
 details, or the javadoc at [https://restlet.com/open-source/documentation/user-guide/2.3](https://restlet.com/open-source/documentation/user-guide/2.3) for info on how to use it.
 
-<<<<<<< HEAD
+
 ## November 16, 2017 #2
 - Added A ```Landing Page``` Which Lets You Click Diffrent Buttons To Navigate to ```/control``` or ```/web/webcontrol```
 - The old ```/web``` was moved to ```/web/webcontrol```
@@ -15,7 +15,7 @@ details, or the javadoc at [https://restlet.com/open-source/documentation/user-g
 - Also For Some Reason In Github Desktop it Says I Added A + Tags To The Beginning Of Most Lines idk Why?
 
 =======
->>>>>>> 07022ecf77244c740badc601f4fd1b1d61483b6e
+
 ## November 16, 2017
 
 - Restlet Server now serves a web page that has simple slider controls for controlling a turret. Web page uses JavaScript 

@@ -1,89 +1,13 @@
-<<<<<<< HEAD
+<html>
 <head>
     <title> Main Page/Redirecting Page</title>
     <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
-
 <body>
-<div class="Welcome">
-<h1>Welcome</h1>
-<a href="http://localhost/web/webcontrol"><h2>Sliders(Control)</h2></a>
-<a href="http://localhost/control"><h2>JSON Data</h2> </a>
-</div>
-
-</body>
-=======
-<html>
-
-<head>
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-</head>
-<body>
-        <center>
-            <br>
-            <div id="tilt"> </div>
-            <br>
-            <div id="pan"> </div>
-        </center>
-
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script>
-
-        $( function() {
-            $("#pan").slider({
-                value: 50,
-                min: 0,
-                max: 100,
-                slide: function(event, ui){
-                    pan(ui.value)
-                }
-            });
-        });
-
-        $( function() {
-            $("#tilt").slider({
-                value: 50,
-                min: 0,
-                max: 100,
-                orientation: "vertical",
-                slide: function(event, ui){
-                    tilt(ui.value)
-                }
-            });
-        });
-
-
-        function tilt(value)
-        {
-            console.log("tilt: " + value);
-            sendPosition();
-        }
-
-        function pan(value)
-        {
-            console.log("pan: " + value);
-            sendPosition();
-        }
-
-
-        function sendPosition() {
-
-            var position = {
-                pan: $("#pan").slider("value"),
-                tilt: $("#tilt").slider("value")
-            }
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost/control",
-                data: JSON.stringify(position)
-            });
-        }
-
-    </script>
+    <div class="Welcome">
+        <h1>Welcome</h1>
+        <a href="http://localhost/web/webcontrol"><h2>Sliders(Control)</h2></a>
+        <a href="http://localhost/control"><h2>JSON Data</h2> </a>
+    </div>
 </body>
 </html>
->>>>>>> 07022ecf77244c740badc601f4fd1b1d61483b6e

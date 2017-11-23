@@ -40,7 +40,7 @@ public class Servo
     {
         Gpio.wiringPiSetup();
 
-        SoftPwm.softPwmCreate(pin, 0, 1000);
+        SoftPwm.softPwmCreate(pin, 0, 100);
     }
 
 

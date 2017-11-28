@@ -7,6 +7,10 @@ the javadoc at [http://pi4j.com/apidocs/index.html](http://pi4j.com/apidocs/inde
 Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/](https://restlet.com/open-source/) for 
 details, or the javadoc at [https://restlet.com/open-source/documentation/user-guide/2.3](https://restlet.com/open-source/documentation/user-guide/2.3) for info on how to use it.
 
+## November 28, 2017
+- Havent pushed code yet
+- major web addition
+- added user name and password system
 ## November 23, 2017 
 - Added Scripts to compile and run the code.
 - Attempted to get the high powered servos directly on the Raspberry Pi GPIO pins with no luck. I think there is not 

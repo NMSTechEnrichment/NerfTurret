@@ -1,4 +1,4 @@
-# NerfTurret
+d# NerfTurret
 An automatic Nerf Turret.
 
 This uses Pi4J to control GPIO on the Pi, see [http://pi4j.com/index.html](http://pi4j.com/index.html) for details, or 
@@ -11,6 +11,11 @@ details, or the javadoc at [https://restlet.com/open-source/documentation/user-g
 - Havent pushed code yet
 - major web addition
 - added user name and password system
+- Uses Personal MySQL-Server Can Be Installed On PI With ```Sudo apt-get install mysql-server phpmyadmin```
+- To Make A Account Goto Create Account/register And Enter Your Username And Password (Will Make Prettyer) and it will put your data into the table of users with a default rank of 0
+- Rank 10 & Higher Can Use Sliders, Rank 50 & Higher May Use Admin Page ( Havent Done Yet )
+- Once Youve made A A Account You Can you The ```Login Page``` And Enter  In Your user name And Password It Will Start A Session In php And create a cookie with your name and rank as a backup the cookie only lasts 5 minutes though
+- To Get Your Rank Assigned Ask Someone With MYSQL/PHPMYADMIN database accsess
 ## November 23, 2017 
 - Added Scripts to compile and run the code.
 - Attempted to get the high powered servos directly on the Raspberry Pi GPIO pins with no luck. I think there is not 

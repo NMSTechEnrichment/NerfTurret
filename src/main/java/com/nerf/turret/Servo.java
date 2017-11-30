@@ -1,7 +1,6 @@
 package com.nerf.turret;
 
-import com.pi4j.wiringpi.Gpio;
-import com.pi4j.wiringpi.SoftPwm;
+import edu.cmu.ri.createlab.hummingbird.HummingbirdRobot;
 
 /**
  * A Servo.
@@ -9,6 +8,11 @@ import com.pi4j.wiringpi.SoftPwm;
  */
 public class Servo
 {
+    /** The minimum position. */
+    private static final int MIN_POSITION = 0;
+
+    /** The maximum position. */
+    private static final int MAX_POSITION = 255;
 
     /** The name of the servo, cannot be changed. */
     private final String name;
@@ -19,6 +23,9 @@ public class Servo
      /** The Servo's position position. */
     private int position;
 
+    /** An initialized {@link HummingbirdRobot}. */
+    private final HummingbirdRobot hummingbirdRobot;
+
     /**
      * Constructor.
      *
@@ -26,35 +33,38 @@ public class Servo
      * @param pin The GPIO pin.
      * @param position The initial position.
      */
-    public Servo(String name, int pin, int position)
+    public Servo(String name, int pin, int position, HummingbirdRobot hummingbirdRobot)
     {
         this.name = name;
         this.pin = pin;
         this.position = position;
+        this.hummingbirdRobot = hummingbirdRobot;
     }
 
     /**
-     * Initialize the Servo.
-     */
-    public void init()
-    {
-        Gpio.wiringPiSetup();
-
-        SoftPwm.softPwmCreate(pin, 0, 100);
-    }
-
-
-    /**
-     * Set the Servo position and move it.
+     * Set the Servo position and move it. The value is limited between 0 and 255.
      *
      * @param position The new position to move to.
      */
     public void move(int position)
     {
-        this.position = position;
-        SoftPwm.softPwmWrite(pin, this.position);
+        int toSet = position;
+        if(position < MIN_POSITION)
+            toSet = MIN_POSITION;
+        else if(position > MAX_POSITION)
+            toSet = MAX_POSITION;
 
-        // TODO This isn't working well with our servos. Figure out why.
+        this.position = toSet;
+        this.hummingbirdRobot.setServoPosition(pin, toSet);
+    }
+
+    /**
+     * Move the servo to it's initial position.
+     *
+     */
+    public void init()
+    {
+        move(position);
     }
 
     public int getPin()

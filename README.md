@@ -7,6 +7,15 @@ the javadoc at [http://pi4j.com/apidocs/index.html](http://pi4j.com/apidocs/inde
 Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/](https://restlet.com/open-source/) for 
 details, or the javadoc at [https://restlet.com/open-source/documentation/user-guide/2.3](https://restlet.com/open-source/documentation/user-guide/2.3) for info on how to use it.
 
+## November 30, 2017
+- Got the servos working using the Hummingbird robotics kit. The external power source was necessary for them to work.
+- The Servos now contain the Hummingbird robot and issue movement commands to it via the ```setServoPosition(...)``` call.
+- Modified the control sliders to use values from 0 to 255 to match the range of the servos, and made the tilt one larger
+so it's easier to control.
+- Added hummingbird Windows and hummingbird Raspberry Pi libraries.
+- The Hummingbird won't run in headless mode for some reason, it is throwing an AWT X11 window exception, but you can fire up the
+Pi and run it through it's UI. In the end we won't want to run this through the UI.
+
 ## November 28, 2017
 - Since The Reslet Web Server Doesnt Support PHP files i uploaded them to my domain ```nmsnerfturret.tk``` we can host a simple apache2 server with php and phpmyadmin and mysql on the pi once its done
 - Havent pushed code yet
@@ -17,6 +26,7 @@ details, or the javadoc at [https://restlet.com/open-source/documentation/user-g
 - Rank 10 & Higher Can Use Sliders, Rank 50 & Higher May Use Admin Page ( Havent Done Yet )
 - Once Youve made A A Account You Can you The ```Login Page``` And Enter  In Your user name And Password It Will Start A Session In php And create a cookie with your name and rank as a backup the cookie only lasts 5 minutes though
 - To Get Your Rank Assigned Ask Someone With MYSQL/PHPMYADMIN database accsess
+
 ## November 23, 2017 
 - Added Scripts to compile and run the code.
 - Attempted to get the high powered servos directly on the Raspberry Pi GPIO pins with no luck. I think there is not 

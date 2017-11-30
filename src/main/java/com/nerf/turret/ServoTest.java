@@ -1,31 +1,40 @@
 package com.nerf.turret;
 
 
-import com.pi4j.component.servo.ServoDriver;
-import com.pi4j.component.servo.ServoProvider;
-import com.pi4j.component.servo.impl.RPIServoBlasterProvider;
+import edu.cmu.ri.createlab.hummingbird.HummingbirdRobot;
 
 import java.io.IOException;
 
+/**
+ * As simple test to move servos.
+ */
 public class ServoTest
 {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        ServoProvider servoProvider = new RPIServoBlasterProvider();
-        ServoDriver servo7 = servoProvider.getServoDriver(servoProvider.getDefinedServoPins().get(0));
-        long start = System.currentTimeMillis();
 
-        while (System.currentTimeMillis() - start < 120000) { // 2 minutes
-            for (int i = 50; i < 150; i++) {
-                servo7.setServoPulseWidth(i); // Set raw value for this servo driver - 50 to 195
-                Thread.sleep(10);
-            }
-            for (int i = 150; i > 50; i--) {
-                servo7.setServoPulseWidth(i); // Set raw value for this servo driver - 50 to 195
-                Thread.sleep(10);
-            }
+        System.out.println("Starting ServoTest");
+
+        HummingbirdRobot hummingbirdRobot = new HummingbirdRobot();
+
+        for(int i=0; i <= 255; i++)
+        {
+            System.out.println("Setting servo position: " + i);
+            hummingbirdRobot.setServoPosition(1, i);
+            hummingbirdRobot.setServoPosition(2, i);
+
+            Thread.sleep(30);
         }
-        System.out.println("Exiting RPIServoBlasterExample");
+
+
+        hummingbirdRobot.setServoPosition(1, 0);
+        hummingbirdRobot.setServoPosition(2, 0);
+
+
+        Thread.sleep(1000);
+
+        System.out.println("Exiting ServoTest");
+        hummingbirdRobot.disconnect();
     }
 
 }

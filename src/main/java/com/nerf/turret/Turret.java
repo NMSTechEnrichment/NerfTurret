@@ -1,5 +1,7 @@
 package com.nerf.turret;
 
+import edu.cmu.ri.createlab.hummingbird.HummingbirdRobot;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,13 +35,13 @@ public class Turret
     }
 
     /**
-     * Initialize the Turret.
+     * Move the turret to it's initial position.
      *
      */
     public void init()
     {
-        this.panServo.init();
-        this.tiltServo.init();
+        panServo.init();
+        tiltServo.init();
     }
 
     /**
@@ -48,7 +50,6 @@ public class Turret
      */
     public void moveUp()
     {
-        // TODO Just too a guess at direction, need to figure out how the Servos actually move and how far.
         tiltServo.move(tiltServo.getPosition() + 5);
     }
 
@@ -86,8 +87,8 @@ public class Turret
      */
     public void setPosition(Position position)
     {
-        panServo.setPosition(position.pan);
-        tiltServo.setPosition(position.tilt);
+        panServo.move(position.pan);
+        tiltServo.move(position.tilt);
     }
 
     /**
@@ -107,8 +108,9 @@ public class Turret
      */
     public static Turret create()
     {
-        Servo panServo = new Servo("Pan",15, 0);
-        Servo tiltServo = new Servo("Tilt",16, 0);
+        HummingbirdRobot hummingbirdRobot = new HummingbirdRobot();
+        Servo panServo = new Servo("Pan",1, 0, hummingbirdRobot);
+        Servo tiltServo = new Servo("Tilt",2, 0, hummingbirdRobot);
 
         return new Turret(panServo, tiltServo);
     }
@@ -123,7 +125,6 @@ public class Turret
     {
         // Create the turret.
         Turret turret = Turret.create();
-        // Initialize it
         turret.init();
 
         // Read the keyboard for movement.

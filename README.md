@@ -8,6 +8,7 @@ Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/]
 details, or the javadoc at [https://restlet.com/open-source/documentation/user-guide/2.3](https://restlet.com/open-source/documentation/user-guide/2.3) for info on how to use it.
 
 ## November 28, 2017
+- Since The Reslet Web Server Doesnt Support PHP files i uploaded them to my domain ```nmsnerfturret.tk``` we can host a simple apache2 server with php and phpmyadmin and mysql on the pi once its done
 - Havent pushed code yet
 - major web addition
 - added user name and password system

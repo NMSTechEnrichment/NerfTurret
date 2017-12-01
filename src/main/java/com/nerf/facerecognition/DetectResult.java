@@ -40,4 +40,24 @@ public class DetectResult
 
 		private int height;
 	}
+
+	public boolean isSuccess()
+	{
+		return success;
+	}
+
+	public int getFacesCount()
+	{
+		return facesCount;
+	}
+
+	public String getError()
+	{
+		return error;
+	}
+
+	public Face[] getFaces()
+	{
+		return faces;
+	}
 }

@@ -20,7 +20,10 @@
             <div id="tilt" style="height: 300px;"> </div>
             <br>
             <div id="pan"> </div>
-            
+            <br>
+            Auto: <input id="autoCheckBox" type="checkbox">
+            <br>
+            <button type="button" id="fireButton">Fire!</button>
        </center>
        
     <link rel="stylesheet" href="css/jquery-ui.min.css">
@@ -29,11 +32,13 @@
     
     <script>
 
+        var turretAddress = "http://192.168.3.3";
+
         $( function() {
             $("#pan").slider({
-                value: 127,
+                value: 112,
                 min: 0,
-                max: 255,
+                max: 225,
                 slide: function(event, ui){
                     pan(ui.value)
                 }
@@ -42,15 +47,52 @@
 
         $( function() {
             $("#tilt").slider({
-                value: 127,
+                value: 112,
                 min: 0,
-                max: 255,
+                max: 225,
                 orientation: "vertical",
                 slide: function(event, ui){
                     tilt(ui.value)
                 }
             });
         });
+
+        $('#autoCheckBox').click(function()
+        {
+            var auto = { auto: this.checked };
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: turretAddress + "/auto",
+                data: JSON.stringify(auto)
+            });
+
+            // Enable or disable and reset the value of the sliders.
+            $( "#pan" ).slider( "option", "disabled", this.checked);
+            $( "#tilt" ).slider( "option", "disabled", this.checked);
+            $( "#pan" ).slider( "option", "value", 112 );
+            $( "#tilt" ).slider( "option", "value", 112 );
+
+            if(!this.checked)
+            {
+                pan(112);
+                tilt(112);
+            }
+
+
+        });
+
+        $("#fireButton").click(function(){
+            var fire = {fire: true}
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: turretAddress + "/trigger",
+                data: JSON.stringify(fire)
+            });
+        });
+
 
         $(function(){sendPosition()});
 
@@ -77,7 +119,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "http://localhost/control",
+                url: turretAddress + "/control",
                 data: JSON.stringify(position)
             });
         }

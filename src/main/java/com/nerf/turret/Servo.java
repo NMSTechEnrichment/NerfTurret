@@ -9,10 +9,10 @@ import edu.cmu.ri.createlab.hummingbird.HummingbirdRobot;
 public class Servo
 {
     /** The minimum position. */
-    private static final int MIN_POSITION = 0;
+    public static final int MIN_POSITION = 0;
 
     /** The maximum position. */
-    private static final int MAX_POSITION = 255;
+    public static final int MAX_POSITION = 225;
 
     /** The name of the servo, cannot be changed. */
     private final String name;

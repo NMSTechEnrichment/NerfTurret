@@ -4,8 +4,14 @@ An automatic Nerf Turret.
 This uses Pi4J to control GPIO on the Pi, see [http://pi4j.com/index.html](http://pi4j.com/index.html) for details, or 
 the javadoc at [http://pi4j.com/apidocs/index.html](http://pi4j.com/apidocs/index.html) for info on how you program it.
 
-Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/](https://restlet.com/open-source/) for 
+Uses Restlet as a lightweight web server, see [https://restlet.com/open-source/](https://restlet.com/open-source) for 
 details, or the javadoc at [https://restlet.com/open-source/documentation/user-guide/2.3](https://restlet.com/open-source/documentation/user-guide/2.3) for info on how to use it.
+
+## December 13, 2017
+- The turret now scans back and forth in auto mode.
+- Added a trigger servo and a corresponding button to ```control.html```.
+- Pi now connects to our ```BlinkyBotNet``` network for control over wifi.
+
 
 ## November 30, 2017
 - Got the servos working using the Hummingbird robotics kit. The external power source was necessary for them to work.

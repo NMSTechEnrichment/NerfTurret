@@ -1,23 +1,19 @@
 package com.nerf.turret;
 
-import com.google.gson.Gson;
 import org.restlet.data.Status;
 import org.restlet.ext.json.JsonRepresentation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
-import org.restlet.resource.ServerResource;
 
 import java.io.IOException;
 
 /**
- * Web resource for controlling the Nerf Turret.
+ * Web resource for controlling the Nerf Turret's position.
  *
  */
-public class ControlResource extends ServerResource
+public class ControlResource extends TurretResource
 {
 
-    /** Handles the conversion of objects to/from json. */
-    private final Gson gson;
 
     /**
      * Constructor, instantiates the turret.
@@ -25,8 +21,7 @@ public class ControlResource extends ServerResource
      */
     public ControlResource()
     {
-        System.out.println("Setting up resource!");
-        gson = new Gson();
+        System.out.println("Creating up Control resource!");
 
     }
 
@@ -39,7 +34,7 @@ public class ControlResource extends ServerResource
     public JsonRepresentation getPosition()
     {
         Turret turret = (Turret)getContext().getAttributes().get(Turret.IDENTIFIER);
-        return new JsonRepresentation(gson.toJson(getTurretFromContext().getPosition()));
+        return new JsonRepresentation(getGson().toJson(getTurretFromContext().getPosition()));
     }
 
     /**
@@ -53,7 +48,7 @@ public class ControlResource extends ServerResource
         System.out.println("Attempting to set position...");
         try
         {
-            Turret.Position position = gson.fromJson(positionRepresentation.getText(), Turret.Position.class);
+            Turret.Position position = getGson().fromJson(positionRepresentation.getText(), Turret.Position.class);
 
             getTurretFromContext().setPosition(position);
 
@@ -65,16 +60,6 @@ public class ControlResource extends ServerResource
 
         System.out.println("Position set...");
 
-    }
-
-    /**
-     * Get the turret out of the server context.
-     *
-     * @return The active {@link Turret}.
-     */
-    private Turret getTurretFromContext()
-    {
-        return (Turret)getContext().getAttributes().get(Turret.IDENTIFIER);
     }
 
 }

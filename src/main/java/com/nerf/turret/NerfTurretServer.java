@@ -43,24 +43,51 @@ public class NerfTurretServer
             }
         };
 
+
+        // The turret.
+        Turret turret = Turret.create();
+
+        // Setting up the attributes in the context to be used in the server.
+        HashMap<String, Object> turretAttributeMap = new HashMap<>();
+        turretAttributeMap.put(Turret.IDENTIFIER, turret);
+        Context context = new Context();
+        context.setAttributes(turretAttributeMap);
+
         // Create an application for controlling the turret.
         Application turretControlApplication = new Application()
         {
             @Override
             public Restlet createInboundRoot()
             {
-                // The turret.
-                Turret turret = Turret.create();
-
-                // Setting up the attributes in the context to be used in the server.
-                HashMap<String, Object> turretAttributeMap = new HashMap<>();
-                turretAttributeMap.put(Turret.IDENTIFIER, turret);
-                Context context = new Context();
-                context.setAttributes(turretAttributeMap);
-
                 // Route calls to the application to create a new resource.
                 Router router = new Router(context);
                 router.attach("", ControlResource.class );
+                return router;
+            }
+        };
+
+        // Create an application for controlling the turret's auto mode.
+        Application turretAutoApplication = new Application()
+        {
+            @Override
+            public Restlet createInboundRoot()
+            {
+                // Route calls to the application to create a new resource.
+                Router router = new Router(context);
+                router.attach("", AutoResource.class );
+                return router;
+            }
+        };
+
+        // Create an application for triggering the turret.
+        Application triggerApplication = new Application()
+        {
+            @Override
+            public Restlet createInboundRoot()
+            {
+                // Route calls to the application to create a new resource.
+                Router router = new Router(context);
+                router.attach("", TriggerResource.class );
                 return router;
             }
         };
@@ -69,6 +96,8 @@ public class NerfTurretServer
         // Attach the applications to the component and start it
         component.getDefaultHost().attach("/web", application); // /web for the files.
         component.getDefaultHost().attach("/control", turretControlApplication); // /control to control the turret.
+        component.getDefaultHost().attach("/auto", turretAutoApplication); // /control to control the turret's auto mode.
+        component.getDefaultHost().attach("/trigger", triggerApplication); // /control to control the turret's trigger.
         component.start();
     }
 }

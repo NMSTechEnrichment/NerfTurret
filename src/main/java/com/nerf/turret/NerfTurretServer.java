@@ -21,11 +21,26 @@ public class NerfTurretServer
     /**
      * Main method. Starts a server on port 80 and registers the ControlResource.
      *
-     * @param args Arguments.
+     * @param args Arguments, -d to start in "disconnected" mode (no hummingbird robot connected).
      * @throws Exception If it blows up.
      */
     public static void main(String[] args) throws Exception
     {
+        // Create a disconnected turret if the command line argument was there.
+        Turret turret;
+        if(args.length == 1)
+        {
+            if("-d".equals(args[0]))
+                turret = Turret.createDisconnected();
+            else
+            {
+                System.out.println("Command line argument " + args[0] + " not recognized, creating a turret connected to a HummingbirdRobot");
+                turret = Turret.create();
+            }
+        }
+        else
+            turret = Turret.create();
+
         // Create a component, this manages the web application.
         Component component = new Component();
         component.getServers().add(Protocol.HTTP, 80);
@@ -42,10 +57,6 @@ public class NerfTurretServer
                 return new Directory(getContext(), rootURI);
             }
         };
-
-
-        // The turret.
-        Turret turret = Turret.create();
 
         // Setting up the attributes in the context to be used in the server.
         HashMap<String, Object> turretAttributeMap = new HashMap<>();

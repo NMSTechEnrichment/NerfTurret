@@ -2,6 +2,8 @@ package com.nerf.turret;
 
 import edu.cmu.ri.createlab.hummingbird.HummingbirdRobot;
 
+import java.util.Optional;
+
 /**
  * A Servo.
  *
@@ -23,8 +25,8 @@ public class Servo
      /** The Servo's position position. */
     private int position;
 
-    /** An initialized {@link HummingbirdRobot}. */
-    private final HummingbirdRobot hummingbirdRobot;
+    /** An initialized {@link HummingbirdRobot} if there is one */
+    private final Optional<HummingbirdRobot> hummingbirdRobot;
 
     /**
      * Constructor.
@@ -38,7 +40,7 @@ public class Servo
         this.name = name;
         this.pin = pin;
         this.position = position;
-        this.hummingbirdRobot = hummingbirdRobot;
+        this.hummingbirdRobot = Optional.ofNullable(hummingbirdRobot);
     }
 
     /**
@@ -55,7 +57,7 @@ public class Servo
             toSet = MAX_POSITION;
 
         this.position = toSet;
-        this.hummingbirdRobot.setServoPosition(pin, toSet);
+        this.hummingbirdRobot.ifPresent(robot -> robot.setServoPosition(pin, position));
     }
 
     /**

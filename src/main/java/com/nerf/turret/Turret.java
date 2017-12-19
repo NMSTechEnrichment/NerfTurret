@@ -193,13 +193,27 @@ public class Turret
     }
 
     /**
-     * Create a new Turret.
+     * Create a new Turret connected to a {@link HummingbirdRobot}.
      *
      * @return A new Turret.
      */
     public static Turret create()
     {
-        HummingbirdRobot hummingbirdRobot = new HummingbirdRobot();
+        return create(new HummingbirdRobot());
+    }
+
+    /**
+     * Create a new {@link Turret} that is not connected to a {@link HummingbirdRobot}.
+     *
+     * @return A new {@link Turret} that is not connected to a {@link HummingbirdRobot}.
+     */
+    public static Turret createDisconnected()
+    {
+        return create(null);
+    }
+
+    private static Turret create(HummingbirdRobot hummingbirdRobot)
+    {
         Servo panServo = new Servo("Pan",1, 0, hummingbirdRobot);
         Servo tiltServo = new Servo("Tilt",2, 0, hummingbirdRobot);
         Servo triggerServo = new Servo("Trigger",3, 0, hummingbirdRobot);

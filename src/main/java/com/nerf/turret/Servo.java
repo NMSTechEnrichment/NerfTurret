@@ -16,6 +16,12 @@ public class Servo
     /** The maximum position. */
     public static final int MAX_POSITION = 225;
 
+    /** The maximum velocity. */
+    public static final int MAX_VELOCITY = 10;
+
+    /** The minimum velocity. */
+    public static final int MIN_VELOCITY = MAX_VELOCITY * -1;
+
     /** The name of the servo, cannot be changed. */
     private final String name;
 
@@ -24,6 +30,8 @@ public class Servo
 
      /** The Servo's position position. */
     private int position;
+
+    private int velocity = 0;
 
     /** An initialized {@link HummingbirdRobot} if there is one */
     private final Optional<HummingbirdRobot> hummingbirdRobot;
@@ -61,6 +69,15 @@ public class Servo
     }
 
     /**
+     * Move based on the current velocity.
+     *
+     */
+    public void move()
+    {
+        move(position + velocity);
+    }
+
+    /**
      * Move the servo to it's initial position.
      *
      */
@@ -83,6 +100,40 @@ public class Servo
     {
         printLogMessage("Setting position to " + position);
         this.position = position;
+    }
+
+    public int getVelocity()
+    {
+        return velocity;
+    }
+
+    /**
+     * Set the velocity, keeping it within the min and max velocity limits.
+     *
+     * @param velocity Velocity to set.
+     */
+    public void setVelocity(int velocity)
+    {
+        this.velocity = limit(velocity, MIN_VELOCITY, MAX_VELOCITY);
+
+    }
+
+    /**
+     * Limit the given value within the given minimum and maximums.
+     *
+     * @param value The value to limit.
+     * @param minLimit The minimum limit.
+     * @param maxLimit The maximum limit.
+     * @return The value limited.
+     */
+    private static int limit(int value, int minLimit, int maxLimit)
+    {
+        if(value < minLimit)
+            return minLimit;
+        else if(value > maxLimit)
+            return maxLimit;
+
+        return value;
     }
 
     /**

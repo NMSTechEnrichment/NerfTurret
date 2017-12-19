@@ -33,7 +33,6 @@ public class ControlResource extends TurretResource
     @Get("json")
     public JsonRepresentation getPosition()
     {
-        Turret turret = (Turret)getContext().getAttributes().get(Turret.IDENTIFIER);
         return new JsonRepresentation(getGson().toJson(getTurretFromContext().getPosition()));
     }
 

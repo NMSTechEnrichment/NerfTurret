@@ -103,12 +103,40 @@ public class NerfTurretServer
             }
         };
 
+        // Create an application for triggering the turret.
+        Application controlModeApplication = new Application()
+        {
+            @Override
+            public Restlet createInboundRoot()
+            {
+                // Route calls to the application to create a new resource.
+                Router router = new Router(context);
+                router.attach("", ControlModeResource.class );
+                return router;
+            }
+        };
+
+        // Create an application for triggering the turret.
+        Application velocityApplication = new Application()
+        {
+            @Override
+            public Restlet createInboundRoot()
+            {
+                // Route calls to the application to create a new resource.
+                Router router = new Router(context);
+                router.attach("", VelocityResource.class );
+                return router;
+            }
+        };
+
 
         // Attach the applications to the component and start it
         component.getDefaultHost().attach("/web", application); // /web for the files.
-        component.getDefaultHost().attach("/control", turretControlApplication); // /control to control the turret.
-        component.getDefaultHost().attach("/auto", turretAutoApplication); // /control to control the turret's auto mode.
-        component.getDefaultHost().attach("/trigger", triggerApplication); // /control to control the turret's trigger.
+        component.getDefaultHost().attach("/control", turretControlApplication); // the turret.
+        component.getDefaultHost().attach("/auto", turretAutoApplication); // the turret's auto mode.
+        component.getDefaultHost().attach("/trigger", triggerApplication); // the turret's trigger.
+        component.getDefaultHost().attach("/controlmode", controlModeApplication); // the turret's control mode.
+        component.getDefaultHost().attach("/velocity", velocityApplication); // the turret's velocity.
         component.start();
     }
 }

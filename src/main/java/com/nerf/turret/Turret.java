@@ -28,6 +28,9 @@ public class Turret
     /** The auto mode of the Turret. Volatile because it can be accessed from multple Restlet resources.*/
     private volatile boolean auto;
 
+    /**  The control mode of the turret. **/
+    private volatile ControlMode controlMode;
+
     /** The direction moving while scanning in auto mode, right by default. */
     private ScanDirection direction = ScanDirection.RIGHT;
 
@@ -99,19 +102,6 @@ public class Turret
 
     }
 
-    /**
-     * Sleep the thread for the given duration.
-     *
-     * @param duration Sleep duration in milliseconds.
-     */
-    private static void sleep(long duration)
-    {
-        try {
-            Thread.sleep(duration);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Start scanning, if in auto mode.
@@ -155,6 +145,17 @@ public class Turret
     }
 
     /**
+     * Set the velocity of the turret.
+     *
+     * @param position Contains the velocities to set.
+     */
+    public void setVelocity(Position position)
+    {
+        panServo.setVelocity(position.pan);
+        tiltServo.setPosition(position.tilt);
+    }
+
+    /**
      * Set the position of the turret.
      *
      * @param position The turret position to set.
@@ -178,10 +179,28 @@ public class Turret
             scan();
     }
 
+    public void setControlMode(TurretControlMode turretControlMode)
+    {
+        if(turretControlMode.getControlMode() == ControlMode.JOYSTICK)
+            setJoystickMode();
+    }
+
+    public void setJoystickMode()
+    {
+        this.controlMode = ControlMode.JOYSTICK;
+        move();
+    }
+
     public Auto getAuto()
     {
         return new Auto(auto);
     }
+
+    public TurretControlMode getTurretControlMode()
+    {
+        return new TurretControlMode(controlMode);
+    }
+
     /**
      * Get the position of the turret.
      *
@@ -191,6 +210,41 @@ public class Turret
     {
         return new Position(panServo.getPosition(), tiltServo.getPosition());
     }
+
+    /**
+     * Get the current velocity wrapped in a {@link Position}.
+     *
+     * @return The current velocity.
+     */
+    public Position getVelocity()
+    {
+        return new Position(panServo.getVelocity(), tiltServo.getVelocity());
+    }
+
+    private void move()
+    {
+        while (controlMode == ControlMode.JOYSTICK)
+        {
+            panServo.move();
+            tiltServo.move();
+            sleep(250);
+        }
+    }
+
+    /**
+     * Sleep the thread for the given duration.
+     *
+     * @param duration Sleep duration in milliseconds.
+     */
+    private static void sleep(long duration)
+    {
+        try {
+            Thread.sleep(duration);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Create a new Turret connected to a {@link HummingbirdRobot}.
@@ -273,6 +327,21 @@ public class Turret
     }
 
     /**
+     * Represents the control mode of the turret.
+     */
+    private enum ControlMode
+    {
+        /** Auto mode. */
+        AUTO,
+
+        /** Joystick Control Mode. */
+        JOYSTICK,
+
+        /** Full manual mode. */
+        MANUAL
+    }
+
+    /**
      * Represents the {@link Turret} position.
      *
      */
@@ -294,6 +363,25 @@ public class Turret
         {
             this.pan = pan;
             this.tilt = tilt;
+        }
+    }
+
+    /**
+     * Represents the Turret's control mode.
+     *
+     */
+    public static class TurretControlMode
+    {
+        public ControlMode controlMode;
+
+        public TurretControlMode(ControlMode controlMode)
+        {
+            this.controlMode = controlMode;
+        }
+
+        public ControlMode getControlMode()
+        {
+            return controlMode;
         }
     }
 

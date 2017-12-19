@@ -20,6 +20,71 @@
     </div>
 
     <script type="text/javascript">
+
+        var turretAddress = "http://localhost";//192.168.3.3";
+
+        var tiltVelocity = 0;
+        var panVelocity = 0;
+
+        // Initialize.
+        $(function(){
+
+            // Joystick control mode;
+
+            var controlMode = {
+                controlMode: "JOYSTICK"
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: turretAddress + "/controlmode",
+                data: JSON.stringify(controlMode)
+            });
+
+            var position = {
+                pan: 112,
+                tilt: 112
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: turretAddress + "/control",
+                data: JSON.stringify(position)
+            });
+
+           sendVelocity();
+        });
+
+        /**
+         * Send the velocity to the turret.
+         */
+        function sendVelocity() {
+
+            var velocity = {
+                pan: panVelocity,
+                tilt: tiltVelocity
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: turretAddress + "/velocity",
+                data: JSON.stringify(velocity)
+            });
+        }
+
+        /**
+         * Convert the given joystick value to a velocity between 0 and 10.
+         *
+         * @param value Value to compute a velocity from.
+         */
+        function computeVelocity(value)
+        {
+            return Math.floor(10 * value);
+        }
+
+        // Setup the joystick.
         $(document).ready(function(){
             var joystickView = new JoystickView(150, function(callbackView){
                 $("#joystickContent").append(callbackView.render().el);
@@ -27,11 +92,16 @@
                     callbackView.renderSprite();
                 }, 0);
             });
+
             joystickView.bind("verticalMove", function(y){
-                $("#yVal").html(y);
+                $("#yVal").html(computeVelocity(y));
+                tiltVelocity = computeVelocity(y);
+                sendVelocity();
             });
             joystickView.bind("horizontalMove", function(x){
-                $("#xVal").html(x);
+                $("#xVal").html(computeVelocity(x));
+                panVelocity = computeVelocity(x);
+                sendVelocity();
             });
         });
     </script>

@@ -1,4 +1,4 @@
-d# NerfTurret
+# NerfTurret
 An automatic Nerf Turret.
 
 This uses Pi4J to control GPIO on the Pi, see [http://pi4j.com/index.html](http://pi4j.com/index.html) for details, or 

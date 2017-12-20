@@ -36,9 +36,9 @@ JoystickView = Backbone.View.extend({
         this.backgroundLoaded = false;
         this.lastTouch = new Date().getTime();
         self = this;
-        // setTimeout(function(){
-        //     self._retractJoystickForInactivity();
-        // }, 1000);
+        setTimeout(function(){
+            self._retractJoystickForInactivity();
+        }, 1000);
         this.sprite = loadSprite("img/button.png", function(){
             self.joyStickLoaded = true;
             self._tryCallback();
@@ -49,7 +49,6 @@ JoystickView = Backbone.View.extend({
         });
     },
     _retractJoystickForInactivity: function(){
-
         var framesPerSec = 15;
         var self = this;
         setTimeout(function(){
@@ -60,7 +59,6 @@ JoystickView = Backbone.View.extend({
             }
             self._retractJoystickForInactivity();
         }, parseInt(1000 / framesPerSec, 10));
-
     },
     _tryCallback: function(){
         if(this.backgroundLoaded && this.joyStickLoaded){
@@ -75,10 +73,6 @@ JoystickView = Backbone.View.extend({
         this.state = INACTIVE;
         this.x = 0;
         this.y = 0;
-
-        this.trigger("horizontalMove", 0.0);
-        this.trigger("verticalMove", 0.0);
-
         this.renderSprite();
     },
     move: function(evt){
@@ -137,7 +131,6 @@ JoystickView = Backbone.View.extend({
         this.renderSprite();
     },
     _retractToMiddle: function(){
-
         var percentLoss = 0.1;
         var toKeep = 1.0 - percentLoss;
 
@@ -153,7 +146,6 @@ JoystickView = Backbone.View.extend({
 
         this.x = Math.floor(toKeep * Math.abs(this.x)) * xSign;
         this.y = Math.floor(toKeep * Math.abs(this.y)) * ySign;
-
     },
     _traceNewValues: function(){
         var slope = this.y / this.x;

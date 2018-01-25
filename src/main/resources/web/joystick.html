@@ -1,41 +1,95 @@
 <html>
-    <head>
-        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="js/underscore-min.js"></script>
-        <script type="text/javascript" src="js/backbone-min.js"></script>
-        <script type="text/javascript" src="js/joystick_view.js"></script>
-         <link rel="stylesheet" type="text/css" href="css/index.css">
-    </head>
-    <body>
-<center>
-    <script type="text/html" id="joystick-view">
+<head>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/backbone-min.js"></script>
+    <script type="text/javascript" src="js/joystick_view.js"></script>
+</head>
+<body>
+
+<script type="text/html" id="joystick-view">
     <canvas id="joystickCanvas" width="<%= squareSize %>" height="<%= squareSize %>" style="width: <%= squareSize %>px; height: <%= squareSize %>px;">
-        </canvas>
-    </script>
+    </canvas>
+</script>
 
-    <div id="joystickContent">
-    </div>
-    <div>
-        x: <span id="xVal"></span><br/>
-        y: <span id="yVal"></span><br/>
-    </div>
+<div id="joystickContent">
+</div>
+<div>
+    x: <span id="xVal"></span><br/>
+    y: <span id="yVal"></span><br/>
+</div>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var joystickView = new JoystickView(150, function(callbackView){
-                $("#joystickContent").append(callbackView.render().el);
-                setTimeout(function(){
-                    callbackView.renderSprite();
-                }, 0);
-            });
-            joystickView.bind("verticalMove", function(y){
-                $("#yVal").html(y);
-            });
-            joystickView.bind("horizontalMove", function(x){
-                $("#xVal").html(x);
-            });
+<script type="text/javascript">
+    var turretAddress = "http://10.4.48.216";//localhost";//192.168.3.3";
+    var tiltVelocity = 0;
+    var panVelocity = 0;
+    // Initialize.
+    $(function(){
+        // Joystick control mode;
+        var controlMode = {
+            controlMode: "JOYSTICK"
+        }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: turretAddress + "/controlmode",
+            data: JSON.stringify(controlMode)
         });
-    </script>
-        </center> 
-    </body>
+        var position = {
+            pan: 112,
+            tilt: 112
+        }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: turretAddress + "/control",
+            data: JSON.stringify(position)
+        });
+        sendVelocity();
+    });
+    /**
+     * Send the velocity to the turret.
+     */
+    function sendVelocity() {
+        var velocity = {
+            pan: panVelocity,
+            tilt: tiltVelocity
+        }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: turretAddress + "/velocity",
+            data: JSON.stringify(velocity)
+        });
+    }
+    /**
+     * Convert the given joystick value to a velocity between 0 and 10.
+     *
+     * @param value Value to compute a velocity from.
+     */
+    function computeVelocity(value)
+    {
+        return Math.floor(10 * value);
+    }
+    // Setup the joystick.
+    $(document).ready(function(){
+        var joystickView = new JoystickView(150, function(callbackView){
+            $("#joystickContent").append(callbackView.render().el);
+            setTimeout(function(){
+                callbackView.renderSprite();
+            }, 0);
+        });
+        joystickView.bind("verticalMove", function(y){
+            $("#yVal").html(computeVelocity(y));
+            tiltVelocity = computeVelocity(y);
+            sendVelocity();
+        });
+        joystickView.bind("horizontalMove", function(x){
+            $("#xVal").html(computeVelocity(x));
+            panVelocity = computeVelocity(x);
+            sendVelocity();
+        });
+    });
+</script>
+</body>
 </html>

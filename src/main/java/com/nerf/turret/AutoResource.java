@@ -8,7 +8,7 @@ import org.restlet.resource.Post;
 import java.io.IOException;
 
 /**
- * Resource for turning the Turret's auto mode on or of.
+ * Resource for turning the Turret's auto mode on or off.
  *
  */
 public class AutoResource extends TurretResource

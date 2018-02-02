@@ -1,5 +1,6 @@
 package com.nerf.turret;
 
+import com.nerf.facerecognition.FaceRecognitionService;
 import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Context;
@@ -129,6 +130,22 @@ public class NerfTurretServer
             }
         };
 
+        // create the service for face recognition
+        // TODO pass address of actual face recognition service
+        FaceRecognitionService faceContext = new FaceRecognitionService(10, "", 9000);
+        HashMap<String, Object> faceAttributeMap = new HashMap<>();
+        faceAttributeMap.put(FaceRecognitionService.IDENTIFIER, faceContext);
+        context.setAttributes(faceAttributeMap);
+        Application faceApplication = new Application()
+        {
+            @Override
+            public Restlet createInboundRoot()
+            {
+                Router router = new Router(context);
+                router.attach("", FaceRecognitionService.WebResource.class);
+                return router;
+            }
+        };
 
         // Attach the applications to the component and start it
         component.getDefaultHost().attach("/web", application); // /web for the files.
@@ -137,6 +154,7 @@ public class NerfTurretServer
         component.getDefaultHost().attach("/trigger", triggerApplication); // the turret's trigger.
         component.getDefaultHost().attach("/controlmode", controlModeApplication); // the turret's control mode.
         component.getDefaultHost().attach("/velocity", velocityApplication); // the turret's velocity.
+        component.getDefaultHost().attach("/face", faceApplication);
         component.start();
     }
 }

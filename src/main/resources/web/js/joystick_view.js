@@ -15,13 +15,14 @@ JoystickView = Backbone.View.extend({
     events: {
         "touchstart": "startControl",
         "touchmove": "move",
-        "touchend": "endCotrol",
+        "touchend": "endControl",
         "mousedown": "startControl",
         "mouseup": "endControl",
         "mousemove": "move"
     },
     initialize: function(squareSize, finishedLoadCallback){
         this.squareSize = squareSize;
+        this.buttonSize = squareSize * 0.25;
         this.template = _.template($("#joystick-view").html());
         this.state = INACTIVE;
         this.x = 0;
@@ -36,9 +37,6 @@ JoystickView = Backbone.View.extend({
         this.backgroundLoaded = false;
         this.lastTouch = new Date().getTime();
         self = this;
-        setTimeout(function(){
-            self._retractJoystickForInactivity();
-        }, 1000);
         this.sprite = loadSprite("img/button.png", function(){
             self.joyStickLoaded = true;
             self._tryCallback();
@@ -73,6 +71,10 @@ JoystickView = Backbone.View.extend({
         this.state = INACTIVE;
         this.x = 0;
         this.y = 0;
+
+        this.trigger("horizontalMove", 0.0);
+        this.trigger("verticalMove", 0.0);
+
         this.renderSprite();
     },
     move: function(evt){
@@ -181,8 +183,8 @@ JoystickView = Backbone.View.extend({
         var originalWidth = 89;
         var originalHeight = 89;
 
-        var spriteWidth = 50;
-        var spriteHeight = 50;
+        var spriteWidth = this.buttonSize; //150;
+        var spriteHeight = this.buttonSize; //150;
         var pixelsLeft = 0; //ofset for sprite on img
         var pixelsTop = 0; //offset for sprite on img
         var coords = this._cartesianToCanvas(this.x, this.y);

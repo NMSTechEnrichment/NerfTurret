@@ -132,7 +132,7 @@ public class NerfTurretServer
 
         // create the service for face recognition
         // TODO pass address of actual face recognition service
-        FaceRecognitionService faceContext = new FaceRecognitionService(10, "", 9000);
+        FaceRecognitionService faceContext = new FaceRecognitionService(10, "10.4.48.239", 8080);
         HashMap<String, Object> faceAttributeMap = new HashMap<>();
         faceAttributeMap.put(FaceRecognitionService.IDENTIFIER, faceContext);
         context.setAttributes(faceAttributeMap);

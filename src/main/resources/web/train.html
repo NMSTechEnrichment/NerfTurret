@@ -3,24 +3,39 @@
 <head>
 </head>
 <body>
-<div class="Welcome">
-    <h1>Welcome</h1>
-    <a href="http://localhost/web/control.html"><h2>Sliders(Control)</h2></a>
-    <a href="http://localhost/control"><h2>JSON Data</h2> </a>
-</div>
+    <h1>Face recognition page</h1>
+    <div>
+        <img src="img/loading.gif">
+    </div>
+    <div>
+        <button id="refresh" type="button">Refresh</button>
+    </div>
+    <div>
+        <form>
+            Face ID: <input type="text" name="id" value=""><br>
+            <input id="train" type="submit" value="Train">
+        </form>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
     <script>
-        var turretAddress = "http://10.4.48.216";//192.168.3.3";
+        var cameraAddress = "http://10.4.48.216/face";//192.168.3.3";
 
         $('#refresh').click(function()
         {
-            // TODO
+            $.ajax({
+                url: "http://localhost/face",
+                cache: false,
+                method: "GET",
+            }).done(function(data) {
+                document.images[0].src = 'data:image/png;base64,'+data;
+            });
         });
 
-        $("#setTarget").click(function()
+        $("#train").click(function()
         {
-            // TODO
+            alert("TODO")
         });
     </script>
-    </div>
 </body>
 </html>

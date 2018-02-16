@@ -172,17 +172,15 @@ public class FaceRecognitionService
 					os.close();
 					InputStream fis = new ByteArrayInputStream(imageBuffer);
 
-					String imageB64 = Base64.getEncoder().encodeToString(imageBuffer);
-					return new JsonRepresentation(gson.toJson(imageB64));
-
-//					DetectResult detectResult = service.detect(fis);
-//					if (detectResult.isSuccess() && detectResult.getFacesCount() == 1)
-//					{
-//						// image is sent base64 encoded
-//						String imageB64 = Base64.getEncoder().encodeToString(imageBuffer);
-//						return new JsonRepresentation(gson.toJson(imageB64));
-//					}
+					DetectResult detectResult = service.detect(fis);
+					if ((detectResult.isSuccess() && detectResult.getFacesCount() == 1) || i == service.takePictureRetries-1)
+					{
+						// image is sent base64 encoded
+						String imageB64 = Base64.getEncoder().encodeToString(imageBuffer);
+						return new JsonRepresentation(gson.toJson(imageB64));
+					}
 				}
+
 			}
 			catch (IOException e)
 			{

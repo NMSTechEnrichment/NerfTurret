@@ -4,127 +4,33 @@
 <head>
     
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" href="css/controlpage.css">
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <body>
-      
-      <div class="button">
 
-        <
-          
+
       </div>
-       <div class="sliderspos">
+
         <center>
-            
+
             <br>
-            <div id="tilt" style="height: 300px;"> </div>
+            <img src="http://192.168.3.4:8081/picture" id="picture">
             <br>
-            <div id="pan"> </div>
-            <br>
-            Auto: <input id="autoCheckBox" type="checkbox">
-            <br>
-            <button type="button" id="fireButton">Fire!</button>
        </center>
-       
+
     <link rel="stylesheet" href="css/jquery-ui.min.css">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
     
     <script>
 
-        var turretAddress = "http://10.4.48.216";//192.168.3.3";
+        var cameraAddress = "http://192.168.3.4:8081/picture";
 
-        $( function() {
-            $("#pan").slider({
-                value: 112,
-                min: 0,
-                max: 225,
-                slide: function(event, ui){
-                    pan(ui.value)
-                }
-            });
-        });
-
-        $( function() {
-            $("#tilt").slider({
-                value: 112,
-                min: 0,
-                max: 225,
-                orientation: "vertical",
-                slide: function(event, ui){
-                    tilt(ui.value)
-                }
-            });
-        });
-
-        $('#autoCheckBox').click(function()
-        {
-            var auto = { auto: this.checked };
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: turretAddress + "/auto",
-                data: JSON.stringify(auto)
-            });
-
-            // Enable or disable and reset the value of the sliders.
-            $( "#pan" ).slider( "option", "disabled", this.checked);
-            $( "#tilt" ).slider( "option", "disabled", this.checked);
-            $( "#pan" ).slider( "option", "value", 112 );
-            $( "#tilt" ).slider( "option", "value", 112 );
-
-            if(!this.checked)
-            {
-                pan(112);
-                tilt(112);
-            }
-
-
-        });
-
-        $("#fireButton").click(function(){
-            var fire = {fire: true}
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: turretAddress + "/trigger",
-                data: JSON.stringify(fire)
-            });
-        });
-
-
-        $(function(){sendPosition()});
-
-        function tilt(value)
-        {
-            console.log("tilt: " + value);
-            sendPosition();
+        setInterval(refresh, 100);
+        function refresh() {
+            $("#picture")
+                .prop("src", "http://192.168.3.4:8081/picture?" + Math.random());
         }
-
-        function pan(value)
-        {
-            console.log("pan: " + value);
-            sendPosition();
-        }
-
-
-        function sendPosition() {
-
-            var position = {
-                pan: $("#pan").slider("value"),
-                tilt: $("#tilt").slider("value")
-            }
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: turretAddress + "/control",
-                data: JSON.stringify(position)
-            });
-        }
-
     </script>
     </div>
 </body>

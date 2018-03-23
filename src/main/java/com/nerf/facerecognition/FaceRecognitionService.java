@@ -38,7 +38,7 @@ public class FaceRecognitionService
 	private static final Path FACES_FOLDER = Paths.get("/FacesCache");
 
 	//private final URL PI_CAMERA = new URL("http://localhost:8081/picture");
-	private final URL PI_CAMERA = new URL("http://10.4.48.231:8081/picture");
+	private final URL PI_CAMERA = new URL("http://192.168.3.4:8081/picture");
 
 	/** address to connect to */
 	private final String url;
@@ -177,7 +177,8 @@ public class FaceRecognitionService
 					{
 						// image is sent base64 encoded
 						String imageB64 = Base64.getEncoder().encodeToString(imageBuffer);
-						return new JsonRepresentation(gson.toJson(imageB64));
+						return new JsonRepresentation(gson.toJson(detectResult));
+//						return new JsonRepresentation(gson.toJson(imageB64));
 					}
 				}
 

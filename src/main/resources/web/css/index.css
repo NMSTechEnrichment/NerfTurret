@@ -14,7 +14,8 @@ body {
 .joystick{
     position: relative;
     top: 50%;
-    
-    
-    
+}
+
+.names {
+	color: red;
 }

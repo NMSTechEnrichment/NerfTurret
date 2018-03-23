@@ -6,11 +6,13 @@ import org.restlet.Component;
 import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.data.Protocol;
+import org.restlet.engine.Engine;
 import org.restlet.resource.Directory;
 import org.restlet.routing.Router;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 /**
  * Main class for starting a server.
@@ -27,6 +29,9 @@ public class NerfTurretServer
      */
     public static void main(String[] args) throws Exception
     {
+
+        Engine.setRestletLogLevel(Level.OFF);
+
         // Create a disconnected turret if the command line argument was there.
         Turret turret;
         if(args.length == 1)
@@ -132,7 +137,7 @@ public class NerfTurretServer
 
         // create the service for face recognition
         // TODO pass address of actual face recognition service
-        FaceRecognitionService faceContext = new FaceRecognitionService(1, "192.168.3.6", 8080);
+        FaceRecognitionService faceContext = new FaceRecognitionService(1, "10.4.48.184", 8080);
         HashMap<String, Object> faceAttributeMap = new HashMap<>();
         faceAttributeMap.put(FaceRecognitionService.IDENTIFIER, faceContext);
         context.setAttributes(faceAttributeMap);
@@ -156,5 +161,6 @@ public class NerfTurretServer
         component.getDefaultHost().attach("/velocity", velocityApplication); // the turret's velocity.
         component.getDefaultHost().attach("/face", faceApplication);
         component.start();
+
     }
 }

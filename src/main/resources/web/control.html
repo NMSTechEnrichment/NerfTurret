@@ -17,11 +17,14 @@
             <img src="http://192.168.3.4:8081/picture" id="picture">
             <br>
             <br>
+            <input id="name" type="text"/>
             <button type="button" onclick="train()">Train</button>
-            <input id="name" type="text"></input>
        </center>
 
       <div id="label">No face.</div>
+      <div id="faces"></div>
+      <br>
+      <div id="names" class="names"></div>
     <link rel="stylesheet" href="css/jquery-ui.min.css">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
@@ -30,18 +33,39 @@
 
         var cameraAddress = "http://192.168.3.4:8081/picture";
 
-        setInterval(refresh, 100);
+        setInterval(refresh, 300);
         function refresh() {
-            $("#picture")
-                .prop("src", "http://192.168.3.4:8081/picture?" + Math.random());
+            $("#picture").prop("src", "http://192.168.3.4:8081/picture?" + Math.random());
 
             $.get("http://localhost/face", function(data){
                 $("#label").text(JSON.stringify(data));
+
+                $("#names").text("");
+                data.faces.forEach(function (f) {
+
+                    if(f.matched)
+                        $("#names").text("Hi " + f.name);
+                    else
+                        $("#names").text("I don't recognize you.");
+                });
+
+
             })
         }
 
         function train(){
-            $.post("http://localhost/face", $("name").val());
+
+            var name = {
+                name: $("#name").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "http://localhost/face",
+                data: JSON.stringify(name)
+            });
+
         }
 
 

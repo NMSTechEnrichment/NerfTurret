@@ -70,6 +70,7 @@ public class FaceRecognitionService
 	{
 		Path facePath = FACES_FOLDER.resolve(faceID+".jpg");
 		BufferedImage bufferedImage= new BufferedImage(currentImage.getWidth(null), currentImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
+		bufferedImage.getGraphics().drawImage(bufferedImage, 0, 0, null);
 		ImageIO.write(bufferedImage, "jpg", facePath.toFile());
 		train(faceID, facePath.toFile());
 	}
@@ -197,9 +198,12 @@ public class FaceRecognitionService
 			System.out.println("Set image as target...");
 			try
 			{
-				String faceID = gson.fromJson(targetJson.getText(), String.class);
+
+				String jsonString = targetJson.getText();
+				System.out.println("recieved: " + jsonString);
+				FaceID faceID = new Gson().fromJson(jsonString, FaceID.class);
 				FaceRecognitionService service = getFaceRecognitionService();
-				service.trainCurrent(faceID);
+				service.trainCurrent(faceID.name);
 			}
 			catch (IOException e)
 			{
@@ -207,5 +211,10 @@ public class FaceRecognitionService
 			}
 
 		}
+	}
+
+	public static class FaceID
+	{
+		public String name;
 	}
 }

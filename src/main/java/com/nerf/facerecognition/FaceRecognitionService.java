@@ -70,7 +70,7 @@ public class FaceRecognitionService
 	{
 		Path facePath = FACES_FOLDER.resolve(faceID+".jpg");
 		BufferedImage bufferedImage= new BufferedImage(currentImage.getWidth(null), currentImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
-		bufferedImage.getGraphics().drawImage(bufferedImage, 0, 0, null);
+		bufferedImage.getGraphics().drawImage(currentImage, 0, 0, null);
 		ImageIO.write(bufferedImage, "jpg", facePath.toFile());
 		train(faceID, facePath.toFile());
 	}
@@ -177,7 +177,7 @@ public class FaceRecognitionService
 					if ((detectResult.isSuccess() && detectResult.getFacesCount() == 1) || i == service.takePictureRetries-1)
 					{
 						// image is sent base64 encoded
-						String imageB64 = Base64.getEncoder().encodeToString(imageBuffer);
+//						String imageB64 = Base64.getEncoder().encodeToString(imageBuffer);
 						return new JsonRepresentation(gson.toJson(detectResult));
 //						return new JsonRepresentation(gson.toJson(imageB64));
 					}

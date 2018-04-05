@@ -30,6 +30,8 @@ public class NerfTurretServer
     public static void main(String[] args) throws Exception
     {
 
+        System.out.println("Starting server.");
+
         Engine.setRestletLogLevel(Level.OFF);
 
         // Create a disconnected turret if the command line argument was there.
@@ -137,7 +139,7 @@ public class NerfTurretServer
 
         // create the service for face recognition
         // TODO pass address of actual face recognition service
-        FaceRecognitionService faceContext = new FaceRecognitionService(1, "10.4.48.184", 8080);
+        FaceRecognitionService faceContext = new FaceRecognitionService(1, "192.168.3.7", 8080);
         HashMap<String, Object> faceAttributeMap = new HashMap<>();
         faceAttributeMap.put(FaceRecognitionService.IDENTIFIER, faceContext);
         context.setAttributes(faceAttributeMap);
@@ -161,6 +163,7 @@ public class NerfTurretServer
         component.getDefaultHost().attach("/velocity", velocityApplication); // the turret's velocity.
         component.getDefaultHost().attach("/face", faceApplication);
         component.start();
+
 
     }
 }

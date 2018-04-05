@@ -1,0 +1,66 @@
+
+<html>
+
+<head>
+    
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+
+
+      </div>
+
+        <center>
+
+            <br>
+            <img src="http://192.168.3.4:8081/picture" id="picture">
+            <br>
+            <br>
+            <input id="name" type="text"/>
+            <button type="button" onclick="train()">Train</button>
+       </center>
+
+      <div id="faces"></div>
+      <br>
+      <div id="names" class="names"></div>
+      <div id="debug" class="names"></div>
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    
+    <script>
+
+        var cameraAddress = "http://192.168.3.4:8081/picture";
+
+        setInterval(refreshImage, 250);
+
+        function refreshImage() {
+            $("#picture").prop("src", "http://192.168.3.4:8081/picture?" + Math.random());
+        }
+
+
+        function train(){
+
+            var name = {
+                name: $("#name").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "http://localhost/face",
+                data: JSON.stringify(name),
+                success: function(data) {
+
+                    $("#names").text("Successfully trained to recognize " + $("#name").val());
+                }
+            });
+
+        }
+
+
+    </script>
+    </div>
+</body>
+</html>

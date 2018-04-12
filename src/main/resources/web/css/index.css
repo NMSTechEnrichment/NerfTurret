@@ -16,6 +16,39 @@ body {
     top: 50%;
 }
 
+.info {
+	position: absolute;
+	top: 625px;
+	left: 10px;
+}
+
 .names {
+	position: relative;
 	color: red;
+}
+
+.pic {
+	width: 800px;
+	height: 600px;
+}
+
+.picture {
+	position: absolute;
+	width: 800px;
+	height: 600px;
+	top: 0px;
+	left: 0px;
+	background-color: purple;
+}
+
+.reticle {
+	position: absolute;
+	top: 150px;
+	left: 250px;
+	width: 300px;
+	height: 300px;
+	border: 3px solid red;
+	z-index: 1;
+	background-color: red;
+	opacity: 0.2;
 }

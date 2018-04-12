@@ -24,7 +24,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
 
 /**
  * Manage the communication with the Facebox service
@@ -37,8 +36,7 @@ public class FaceRecognitionService
 
 	private static final Path FACES_FOLDER = Paths.get("/FacesCache");
 
-	//private final URL PI_CAMERA = new URL("http://localhost:8081/picture");
-	private final URL PI_CAMERA = new URL("http://192.168.3.4:8081/picture");
+	private final URL PI_CAMERA = new URL("http://192.168.3.5:8081/picture");
 
 	/** address to connect to */
 	private final String url;

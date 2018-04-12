@@ -31,12 +31,12 @@
     
     <script>
 
-        var cameraAddress = "http://192.168.3.4:8081/picture";
+        var cameraAddress = "http://192.168.3.5:8081/picture";
 
         setInterval(refreshImage, 250);
 
         function refreshImage() {
-            $("#picture").prop("src", "http://192.168.3.4:8081/picture?" + Math.random());
+            $("#picture").prop("src", cameraAddress + "?" + Math.random());
         }
 
 
